@@ -1,26 +1,27 @@
 import express, { Request, Response, NextFunction } from 'express';
-import { Room } from '../interfaces/Room';
-const allrooms = require('../data/rooms.json');
+import { auth } from '../middleware/auth';
+import { getAllRooms, getRoom } from '../services/room';
 
-export const roomController = express.Router();
+export const roomRouter = express.Router();
 
-
-roomController.get('/rooms', (req: Request, res: Response) => {
-    res.json(allrooms);
+roomRouter.get('/rooms', auth, async (req: Request, res: Response) => {
+    const rooms = await getAllRooms();
+    res.json({data: rooms});
 });
 
-roomController.get('/rooms/:id', (req: Request, res: Response) => {
-    res.json(allrooms.find((room: Room) => room.Room_ID === parseInt(req.params.id)));
+roomRouter.get('/rooms/:id', auth, async (req: Request, res: Response) => {
+    const room = await getRoom(parseInt(req.params.id));
+    res.json({data: room});
 });
 
-roomController.post('/rooms', (req: Request, res: Response) => {
+roomRouter.post('/rooms', auth, (req: Request, res: Response) => {
     res.send('ROOM POST');
 });
 
-roomController.patch('/rooms/:id', (req: Request, res: Response) => {
+roomRouter.patch('/rooms/:id', auth, (req: Request, res: Response) => {
     res.send('ROOM PATCH INDIVIDUAL');
 });
 
-roomController.delete('/rooms/:id', (req: Request, res: Response) => {
+roomRouter.delete('/rooms/:id', auth, (req: Request, res: Response) => {
     res.send('ROOMS DELETE');
 });
