@@ -1,26 +1,28 @@
 import express, { Request, Response, NextFunction } from 'express';
-import { User } from '../interfaces/User';
-const allUsers = require('../data/users.json');
+import { auth } from '../middleware/auth';
+import { getAllUsers, getUser } from '../services/user';
 
-export const userController = express.Router();
+export const userRouter = express.Router();
 
 
-userController.get('/users', (req: Request, res: Response) => {
-    res.json(allUsers);
+userRouter.get('/users', auth, async (req: Request, res: Response) => {
+    const users = await getAllUsers();
+    res.json({data: users});
 });
 
-userController.get('/users/:id', (req: Request, res: Response) => {
-    res.json(allUsers.find((user: User) => user.Employee_ID === req.params.id));
+userRouter.get('/users/:id', auth, async (req: Request, res: Response) => {
+    const user = await getUser(req.params.id)
+    res.json({data: user});
 });
 
-userController.post('/users', (req: Request, res: Response) => {
+userRouter.post('/users', auth, (req: Request, res: Response) => {
     res.send('USER POST');
 });
 
-userController.patch('/users/:id', (req: Request, res: Response) => {
+userRouter.patch('/users/:id', auth, (req: Request, res: Response) => {
     res.send('USER PATCH INDIVIDUAL');
 });
 
-userController.delete('/users/:id', (req: Request, res: Response) => {
+userRouter.delete('/users/:id', auth, (req: Request, res: Response) => {
     res.send('USER DELETE');
 });
