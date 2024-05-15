@@ -17,5 +17,5 @@ loginRouter.post('/login', (req: Request, res: Response) => {
         const token = jwt.sign(JSON.stringify({id: 1, email: EMAIL}), JWT_SECRET)
         return res.json({token});
     }
-    return res.status(401).json({error: 'pone bien las cosas pelotudo'});
+    return res.status(401).json({message: 'Invalid credentials!'});
 })

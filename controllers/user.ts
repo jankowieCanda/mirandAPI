@@ -5,14 +5,22 @@ import { getAllUsers, getUser } from '../services/user';
 export const userRouter = express.Router();
 
 
-userRouter.get('/users', auth, async (req: Request, res: Response) => {
-    const users = await getAllUsers();
-    res.json({data: users});
+userRouter.get('/users', auth, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const users = await getAllUsers();
+        res.json({data: users});
+    } catch(e) {
+        next(e);
+    }
 });
 
-userRouter.get('/users/:id', auth, async (req: Request, res: Response) => {
-    const user = await getUser(req.params.id)
-    res.json({data: user});
+userRouter.get('/users/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const user = await getUser(req.params.id)
+        res.json({data: user});
+    } catch(e) {
+        next(e);
+    }
 });
 
 userRouter.post('/users', auth, (req: Request, res: Response) => {
