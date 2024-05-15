@@ -1,14 +1,15 @@
 import express, { Request, Response, NextFunction } from 'express';
-import { Contact } from '../interfaces/Contact';
-const allReviews = require('../data/contact.json');
+import { auth } from '../middleware/auth';
+import { getAllReviews } from '../services/contact';
 
-export const contactController = express.Router();
+export const contactRouter = express.Router();
 
 
-contactController.get('/contact', (req: Request, res: Response) => {
-    res.json(allReviews);
+contactRouter.get('/contact', auth, async (req: Request, res: Response) => {
+    const reviews = await getAllReviews();
+    res.json({data: reviews});
 });
 
-contactController.delete('/contact/:id', (req: Request, res: Response) => {
+contactRouter.delete('/contact/:id', auth, (req: Request, res: Response) => {
     res.send('CONTACT DELETE');
 });
