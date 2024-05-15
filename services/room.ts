@@ -1,4 +1,5 @@
 
+import { APIError } from '../APIError';
 import { Room } from '../interfaces/Room';
 const roomsData = require('../data/rooms.json');
 
@@ -8,7 +9,11 @@ export const getAllRooms = async () => {
 }
 
 export const getRoom = async (id: number) => {
-    return roomsData.find((room: Room) => room.Room_ID === id);
+    const room = roomsData.find((room: Room) => room.Room_ID === id);
+    if(!room) {
+        throw new APIError(404, 'Room not found!', true);
+    }
+    return room;
 }
 
 export const updateRoom = async (obj: Room) => {

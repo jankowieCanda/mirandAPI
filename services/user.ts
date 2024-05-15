@@ -1,3 +1,4 @@
+import { APIError } from '../APIError';
 import { User } from '../interfaces/User';
 const usersData = require('../data/users.json');
 
@@ -6,7 +7,11 @@ export const getAllUsers = async () => {
 }
 
 export const getUser = async (id: string) => {
-    return usersData.find((user: User) => user.Employee_ID === id);
+    const user = usersData.find((user: User) => user.Employee_ID === id);
+    if(!user) {
+        throw new APIError(404, 'User not found!', true);
+    }
+    return user;
 }
 
 export const updateUser = async (obj: User) => {
