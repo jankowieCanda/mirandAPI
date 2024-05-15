@@ -21,8 +21,10 @@ app.use(userRouter);
 
 app.use(contactRouter);
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('DASHBOARD');
+app.use(express.static('views'));
+
+app.get('/', auth, (req: Request, res: Response) => {
+  res.render('index.html');
 });
 
 app.use(async (err: APIError, req: Request, res: Response , next: NextFunction) => {
