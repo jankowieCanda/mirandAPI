@@ -1,26 +1,28 @@
 import express, { Request, Response, NextFunction } from 'express';
-import { Booking } from '../interfaces/Booking';
-const allbookings = require('../data/bookings.json');
+import { auth } from '../middleware/auth';
+import { getAllBookings, getBooking } from '../services/booking';
 
-export const bookingController = express.Router();
+export const bookingRouter = express.Router();
 
 
-bookingController.get('/bookings', (req: Request, res: Response) => {
-    res.json(allbookings);
+bookingRouter.get('/bookings', auth, async (req: Request, res: Response) => {
+    const bookings = await getAllBookings();
+    res.json({data: bookings});
 });
 
-bookingController.get('/bookings/:id', (req: Request, res: Response) => {
-    res.json(allbookings.find((booking: Booking) => booking.Reservation_ID === parseInt(req.params.id)));
+bookingRouter.get('/bookings/:id', auth, async (req: Request, res: Response) => {
+    const booking = await getBooking(parseInt(req.params.id))
+    res.json({data: booking});
 });
 
-bookingController.post('/bookings', (req: Request, res: Response) => {
+bookingRouter.post('/bookings', auth, (req: Request, res: Response) => {
     res.send('booking POST');
 });
 
-bookingController.patch('/bookings/:id', (req: Request, res: Response) => {
+bookingRouter.patch('/bookings/:id', auth, (req: Request, res: Response) => {
     res.send('booking PATCH INDIVIDUAL');
 });
 
-bookingController.delete('/bookings/:id', (req: Request, res: Response) => {
+bookingRouter.delete('/bookings/:id', auth, (req: Request, res: Response) => {
     res.send('booking DELETE');
 });
