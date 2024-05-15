@@ -1,22 +1,25 @@
 import express, { Request, Response, NextFunction } from "express";
-import { loginController } from "./controllers/login";
-import { bookingController } from "./controllers/booking";
-import { roomController } from "./controllers/room";
-import { userController } from "./controllers/user";
-import { contactController } from "./controllers/contact";
+import { loginRouter } from "./controllers/login";
+import { bookingRouter } from "./controllers/booking";
+import { roomRouter } from "./controllers/room";
+import { userRouter } from "./controllers/user";
+import { contactRouter } from "./controllers/contact";
+import { auth } from "./middleware/auth";
 
 export const app = express();
 
 app.get('/', (req: Request, res: Response) => {
   res.send('DASHBOARD');
-})
+});
 
-app.use(loginController);
+app.use(auth);
 
-app.use(bookingController);
+app.use(loginRouter);
 
-app.use(roomController);
+app.use(bookingRouter);
 
-app.use(userController);
+app.use(roomRouter);
 
-app.use(contactController);
+app.use(userRouter);
+
+app.use(contactRouter);

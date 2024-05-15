@@ -2,4 +2,3 @@
 /node-rooms-csv
 /node-express
 .env
-rooms.ts
