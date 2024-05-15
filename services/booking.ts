@@ -1,3 +1,4 @@
+import { APIError } from '../APIError';
 import { Booking } from '../interfaces/Booking';
 const bookingsData = require('../data/bookings.json');
 
@@ -6,7 +7,11 @@ export const getAllBookings = async () => {
 }
 
 export const getBooking = async (id: number) => {
-    return bookingsData.find((booking: Booking) => booking.Reservation_ID === id);
+    const booking = bookingsData.find((booking: Booking) => booking.Reservation_ID === id);
+    if(!booking) {
+        throw new APIError(404, 'Booking not found', true);
+    }
+    return booking;
 }
 
 export const updateBooking = async (obj: Booking) => {

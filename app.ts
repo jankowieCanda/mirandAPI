@@ -5,12 +5,9 @@ import { roomRouter } from "./controllers/room";
 import { userRouter } from "./controllers/user";
 import { contactRouter } from "./controllers/contact";
 import { auth } from "./middleware/auth";
+import { APIError } from "./APIError";
 
 export const app = express();
-
-app.get('/', (req: Request, res: Response) => {
-  res.send('DASHBOARD');
-});
 
 app.use(auth);
 
@@ -23,3 +20,12 @@ app.use(roomRouter);
 app.use(userRouter);
 
 app.use(contactRouter);
+
+app.get('/', (req: Request, res: Response) => {
+  res.send('DASHBOARD');
+});
+
+app.use(async (err: APIError, req: Request, res: Response , next: NextFunction) => {
+  console.error(err);
+  return res.status(err.status ?? 500).json({message: err.safe ? err.message : 'Fatal Error!'})
+})

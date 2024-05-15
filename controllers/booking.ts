@@ -5,14 +5,22 @@ import { getAllBookings, getBooking } from '../services/booking';
 export const bookingRouter = express.Router();
 
 
-bookingRouter.get('/bookings', auth, async (req: Request, res: Response) => {
-    const bookings = await getAllBookings();
-    res.json({data: bookings});
+bookingRouter.get('/bookings', auth, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const bookings = await getAllBookings();
+        res.json({data: bookings});
+    } catch (e) {
+        next(e);
+    }
 });
 
-bookingRouter.get('/bookings/:id', auth, async (req: Request, res: Response) => {
-    const booking = await getBooking(parseInt(req.params.id))
-    res.json({data: booking});
+bookingRouter.get('/bookings/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const booking = await getBooking(parseInt(req.params.id))
+        res.json({data: booking});
+    } catch(e) {
+        next(e);
+    }
 });
 
 bookingRouter.post('/bookings', auth, (req: Request, res: Response) => {
