@@ -9,7 +9,7 @@ export const getAllUsers = async () => {
 export const getUser = async (id: string) => {
     const user = usersData.find((user: User) => user.Employee_ID === id);
     if(!user) {
-        throw new APIError(404, 'User not found!', true);
+        throw new APIError(404, 'User not found', true);
     }
     return user;
 }

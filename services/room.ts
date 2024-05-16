@@ -11,7 +11,7 @@ export const getAllRooms = async () => {
 export const getRoom = async (id: number) => {
     const room = roomsData.find((room: Room) => room.Room_ID === id);
     if(!room) {
-        throw new APIError(404, 'Room not found!', true);
+        throw new APIError(404, 'Room not found', true);
     }
     return room;
 }

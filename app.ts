@@ -23,7 +23,7 @@ app.use(contactRouter);
 
 app.use(express.static('views'));
 
-app.get('/', auth, (req: Request, res: Response) => {
+app.get('/', (req: Request, res: Response) => {
   res.render('index.html');
 });
 
