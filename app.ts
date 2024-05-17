@@ -9,7 +9,7 @@ import { APIError } from "./APIError";
 
 export const app = express();
 
-app.use(auth);
+app.use(express.json());
 
 app.use(loginRouter);
 
