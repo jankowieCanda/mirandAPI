@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest",
     "start": "nodemon server.ts",
-    "deploy": "npm run build && serverless deploy"
+    "build": "tsc --build",
+    "deploy": "serverless deploy"
   },
   "repository": {
     "type": "git",
