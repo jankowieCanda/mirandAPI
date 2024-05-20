@@ -5,6 +5,7 @@ import { roomRouter } from "./controllers/room";
 import { userRouter } from "./controllers/user";
 import { contactRouter } from "./controllers/contact";
 import { APIError } from "./APIError";
+import path from "path";
 
 export const app = express();
 
@@ -20,7 +21,7 @@ app.use(userRouter);
 
 app.use(contactRouter);
 
-app.use(express.static('views'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req: Request, res: Response) => {
   res.render('index.html');

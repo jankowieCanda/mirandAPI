@@ -6,7 +6,9 @@
   "scripts": {
     "test": "jest",
     "start": "nodemon server.ts",
-    "build": "tsc --build",
+    "clean": "rimraf dist/",
+    "copy-files": "copyfiles public/*.html data/*.json dist/",
+    "build": "npm run clean && tsc && npm run copy-files",
     "deploy": "serverless deploy"
   },
   "repository": {
