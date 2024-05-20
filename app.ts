@@ -6,6 +6,7 @@ import { userRouter } from "./controllers/user";
 import { contactRouter } from "./controllers/contact";
 import { APIError } from "./APIError";
 import path from "path";
+const db = require('./db');
 
 export const app = express();
 
