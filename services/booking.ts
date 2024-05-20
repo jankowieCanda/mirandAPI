@@ -1,5 +1,6 @@
 import { APIError } from '../APIError';
 import { Booking } from '../interfaces/Booking';
+import { BookingModel } from '../models/Booking';
 const bookingsData = require('../data/bookings.json');
 
 export const getAllBookings = async () => {
@@ -23,5 +24,6 @@ export const deleteBooking = async (id: number) => {
 }
 
 export const createBooking = async (obj: Booking) => {
-    return;
+    const newBooking = BookingModel.insertMany(obj)
+    return newBooking;
 }
