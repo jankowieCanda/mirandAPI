@@ -19,7 +19,6 @@ exports.loginRouter = express_1.default.Router();
 exports.loginRouter.post('/login', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const token = yield (0, login_1.login)(req.body);
-        console.log(token);
         res.json({ token });
     }
     catch (e) {
