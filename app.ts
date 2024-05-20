@@ -4,7 +4,6 @@ import { bookingRouter } from "./controllers/booking";
 import { roomRouter } from "./controllers/room";
 import { userRouter } from "./controllers/user";
 import { contactRouter } from "./controllers/contact";
-import { auth } from "./middleware/auth";
 import { APIError } from "./APIError";
 
 export const app = express();
