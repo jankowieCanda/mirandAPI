@@ -16,7 +16,7 @@ export const getBooking = async (id: number) => {
 }
 
 export const updateBooking = async (id: number, obj: Booking) => {
-    const booking = BookingModel.findByIdAndUpdate({Reservation_ID: id}, obj);
+    const booking = BookingModel.findOneAndUpdate({Reservation_ID: id}, obj);
     if(!booking) {
         throw new APIError(404, 'Booking not found', true);
     }
