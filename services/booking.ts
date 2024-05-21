@@ -24,6 +24,6 @@ export const deleteBooking = async (id: number) => {
 }
 
 export const createBooking = async (obj: Booking) => {
-    const newBooking = BookingModel.insertMany(obj)
-    return newBooking;
+    const newBooking = new BookingModel(obj)
+    await newBooking.save();
 }
