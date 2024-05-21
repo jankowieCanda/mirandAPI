@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { auth } from '../middleware/auth';
-import { createBooking, getAllBookings, getBooking } from '../services/booking';
+import { createBooking, deleteBooking, getAllBookings, getBooking, updateBooking } from '../services/booking';
 
 export const bookingRouter = express.Router();
 
@@ -16,7 +16,7 @@ bookingRouter.get('/bookings', auth, async (req: Request, res: Response, next: N
 
 bookingRouter.get('/bookings/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const booking = await getBooking(parseInt(req.params.id))
+        const booking = await getBooking(parseInt(req.params.id));
         res.json({data: booking});
     } catch(e) {
         next(e);
@@ -24,14 +24,17 @@ bookingRouter.get('/bookings/:id', auth, async (req: Request, res: Response, nex
 });
 
 bookingRouter.post('/bookings', auth, (req: Request, res: Response) => {
-    const booking = createBooking(req.body)
-    res.json({data: 'Booking added!'});
+    const newBooking = createBooking(req.body);
+    res.json({data: newBooking});
 });
 
 bookingRouter.patch('/bookings/:id', auth, (req: Request, res: Response) => {
-    res.send('booking PATCH INDIVIDUAL');
+    const patchedObj = req.body;
+    const patchedBooking = updateBooking(parseInt(req.params.id), patchedObj);
+    res.json({data: patchedBooking});
 });
 
 bookingRouter.delete('/bookings/:id', auth, (req: Request, res: Response) => {
-    res.send('booking DELETE');
+    const deletedBooking = deleteBooking(parseInt(req.params.id))
+    res.json({data: deletedBooking});
 });

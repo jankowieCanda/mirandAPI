@@ -11,6 +11,7 @@ const bookingSchema = new Schema<Booking>({
     Room_Type: String,
     Room_Number: Number,
     Status: String
-});
+}
+);
 
-export const BookingModel = model('BookingModel', bookingSchema);
+export const BookingModel = model('booking', bookingSchema);
