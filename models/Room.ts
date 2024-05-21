@@ -12,4 +12,4 @@ const roomSchema = new Schema<Room>({
     Status: String,
 });
 
-export const RoomModel = model('RoomModel', roomSchema);
+export const RoomModel = model('rooms', roomSchema);
