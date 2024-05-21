@@ -12,4 +12,4 @@ const userSchema = new Schema<User>({
     Status: String,
 });
 
-export const UserModel = model('UserModel', userSchema);
+export const UserModel = model('users', userSchema);

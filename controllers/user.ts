@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { auth } from '../middleware/auth';
-import { getAllUsers, getUser } from '../services/user';
+import { createUser, deleteUser, getAllUsers, getUser, updateUser } from '../services/user';
 
 export const userRouter = express.Router();
 
@@ -23,14 +23,18 @@ userRouter.get('/users/:id', auth, async (req: Request, res: Response, next: Nex
     }
 });
 
-userRouter.post('/users', auth, (req: Request, res: Response) => {
-    res.send('USER POST');
+userRouter.post('/users', auth, async (req: Request, res: Response) => {
+    const newUser = await createUser(req.body)
+    res.json({data: newUser});
 });
 
-userRouter.patch('/users/:id', auth, (req: Request, res: Response) => {
-    res.send('USER PATCH INDIVIDUAL');
+userRouter.patch('/users/:id', auth, async (req: Request, res: Response) => {
+    const patch = req.body;
+    const patchedUser = await updateUser(req.params.id, patch);
+    res.json({data: patchedUser});
 });
 
-userRouter.delete('/users/:id', auth, (req: Request, res: Response) => {
-    res.send('USER DELETE');
+userRouter.delete('/users/:id', auth, async (req: Request, res: Response) => {
+    const deletedUser = deleteUser(req.params.id)
+    res.json({data: deletedUser});
 });
