@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { auth } from '../middleware/auth';
-import { getAllRooms, getRoom } from '../services/room';
+import { createRoom, deleteRoom, getAllRooms, getRoom, updateRoom } from '../services/room';
 
 export const roomRouter = express.Router();
 
@@ -22,14 +22,18 @@ roomRouter.get('/rooms/:id', auth, async (req: Request, res: Response, next: Nex
     }
 });
 
-roomRouter.post('/rooms', auth, (req: Request, res: Response) => {
-    res.send('ROOM POST');
+roomRouter.post('/rooms', auth, async (req: Request, res: Response) => {
+    const newRoom = createRoom(req.body)
+    res.json({data: newRoom});
 });
 
 roomRouter.patch('/rooms/:id', auth, (req: Request, res: Response) => {
-    res.send('ROOM PATCH INDIVIDUAL');
+    const patch = req.body;
+    const patchedRoom = updateRoom(parseInt(req.params.id), patch);
+    res.json({data: patchedRoom});
 });
 
 roomRouter.delete('/rooms/:id', auth, (req: Request, res: Response) => {
-    res.send('ROOMS DELETE');
+    const deletedRoom = deleteRoom(parseInt(req.params.id))
+    res.json({data: deletedRoom});
 });

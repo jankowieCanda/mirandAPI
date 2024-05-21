@@ -1,29 +1,39 @@
 
 import { APIError } from '../APIError';
 import { Room } from '../interfaces/Room';
-const roomsData = require('../data/rooms.json');
-
+import { RoomModel } from '../models/Room';
 
 export const getAllRooms = async () => {
-    return roomsData;
+    const allRooms = RoomModel.find();
+    return allRooms;
 }
 
 export const getRoom = async (id: number) => {
-    const room = roomsData.find((room: Room) => room.Room_ID === id);
+    const room = RoomModel.findOne({Room_ID: id});
     if(!room) {
         throw new APIError(404, 'Room not found', true);
     }
     return room;
 }
 
-export const updateRoom = async (obj: Room) => {
-    return;
+export const updateRoom = async (id: number, obj: Room) => {
+    const room = RoomModel.findOneAndUpdate({Room_ID: id}, obj);
+    if(!room) {
+        throw new APIError(404, 'Booking not found', true);
+    }
+    return room;
 }
 
 export const deleteRoom = async (id:number) => {
-    return;
+    const room = RoomModel.findOneAndDelete({Room_ID: id});
+    if(!room) {
+        throw new APIError(404, 'Booking not found', true);
+    }
+    return room;
 }
 
 export const createRoom = async (obj: Room) => {
-    return;
+    const newRoom = new RoomModel(obj);
+    await newRoom.save();
+    return newRoom;
 }
