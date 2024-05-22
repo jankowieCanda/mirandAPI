@@ -1,9 +1,10 @@
-import { Contact } from '../interfaces/Contact';
-const reviewsData = require('../data/contact.json');
+import { APIError } from '../APIError';
+import { ContactModel } from '../models/Contact';
 
 
 export const getAllReviews = async () => {
-    return reviewsData;
+    const allReviews = await ContactModel.find();
+    return allReviews;
 }
 
 /* export const getReview = async (id: number) => {
@@ -15,5 +16,10 @@ export const updateReview = async (obj: Contact) => {
 } */
 
 export const deleteReview = async (id:number) => {
-    return;
+    const review = await ContactModel.findOneAndDelete({message_id: id});
+    if(!review) {
+        throw new APIError(404, 'Review not found', true);
+    }
+    return review;
 }
+

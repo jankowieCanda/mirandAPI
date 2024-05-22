@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import { Schema, model } from "mongoose";
 import { Contact } from "../interfaces/Contact";
 
 const contactSchema = new Schema<Contact>({
@@ -12,3 +12,5 @@ const contactSchema = new Schema<Contact>({
     mail: String,
     phone: String,
 });
+
+export const ContactModel = model('contacts', contactSchema);
