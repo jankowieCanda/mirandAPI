@@ -8,7 +8,7 @@ export const getAllUsers = async () => {
 }
 
 export const getUser = async (id: string) => {
-    const user = await UserModel.findOne({Employee_ID: id});
+    const user = await UserModel.findById({_id: id});
     if(!user) {
         throw new APIError(404, 'User not found', true);
     }
@@ -16,7 +16,7 @@ export const getUser = async (id: string) => {
 }
 
 export const updateUser = async (id: string, obj: User) => {
-    const user = await UserModel.findOneAndUpdate({Employee_ID: id}, obj);
+    const user = await UserModel.findByIdAndUpdate({_id: id}, obj);
     if(!user) {
         throw new APIError(404, 'User not found', true);
     }
@@ -24,7 +24,7 @@ export const updateUser = async (id: string, obj: User) => {
 }
 
 export const deleteUser = async (id: string) => {
-    const user = await UserModel.findOneAndDelete({Employee_ID: id});
+    const user = await UserModel.findByIdAndDelete({_id: id});
     if(!user) {
         throw new APIError(404, 'User not found', true);
     }
@@ -34,5 +34,4 @@ export const deleteUser = async (id: string) => {
 export const createUser = async (obj: User) => {
     const newUser = new UserModel(obj);
     await newUser.save();
-    return newUser;
 }

@@ -16,25 +16,36 @@ bookingRouter.get('/bookings', auth, async (req: Request, res: Response, next: N
 
 bookingRouter.get('/bookings/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const booking = await getBooking(parseInt(req.params.id));
+        const booking = await getBooking(req.params.id);
         res.json({data: booking});
     } catch(e) {
         next(e);
     }
 });
 
-bookingRouter.post('/bookings', auth, (req: Request, res: Response) => {
-    const newBooking = createBooking(req.body);
-    res.json({data: newBooking});
+bookingRouter.post('/bookings', auth, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const newBooking = await createBooking(req.body);
+        res.json({data: newBooking});
+    } catch(e) {
+        next(e);
+    }
 });
 
-bookingRouter.patch('/bookings/:id', auth, (req: Request, res: Response) => {
-    const patchedObj = req.body;
-    const patchedBooking = updateBooking(parseInt(req.params.id), patchedObj);
-    res.json({data: patchedBooking});
+bookingRouter.patch('/bookings/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        await updateBooking(req.params.id, req.body);
+        res.json({data: `Booking with _id [${req.params.id}] updated!`});
+    } catch(e) {
+        next(e);
+    }
 });
 
-bookingRouter.delete('/bookings/:id', auth, (req: Request, res: Response) => {
-    const deletedBooking = deleteBooking(parseInt(req.params.id))
-    res.json({data: deletedBooking});
+bookingRouter.delete('/bookings/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        await deleteBooking(req.params.id)
+        res.json({data: `Booking with _id [${req.params.id}] deleted!`});
+    } catch(e) {
+        next(e)
+    }
 });

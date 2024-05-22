@@ -16,8 +16,8 @@ contactRouter.get('/contact', auth, async (req: Request, res: Response, next: Ne
 
 contactRouter.delete('/contact/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const deletedReview = await deleteReview(parseInt(req.params.id));
-        res.json({data: deletedReview});
+        await deleteReview(req.params.id);
+        res.json({data: `Review with _id [${req.params.id}] deleted!`});
     } catch(e) {
         next(e)
     }

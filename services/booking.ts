@@ -7,24 +7,24 @@ export const getAllBookings = async () => {
     return allBookings;
 }
 
-export const getBooking = async (id: number) => {
-    const booking = BookingModel.findOne({Reservation_ID: id});
+export const getBooking = async (id: string) => {
+    const booking = BookingModel.findById({_id: id});
     if(!booking) {
         throw new APIError(404, 'Booking not found', true);
     }
     return booking;
 }
 
-export const updateBooking = async (id: number, obj: Booking) => {
-    const booking = BookingModel.findOneAndUpdate({Reservation_ID: id}, obj);
+export const updateBooking = async (id: string, obj: Booking) => {
+    const booking = BookingModel.findByIdAndUpdate({_id: id}, obj);
     if(!booking) {
         throw new APIError(404, 'Booking not found', true);
     }
     return booking;
 }
 
-export const deleteBooking = async (id: number) => {
-    const booking = BookingModel.findOneAndDelete({Reservation_ID: id});
+export const deleteBooking = async (id: string) => {
+    const booking = BookingModel.findOneAndDelete({_id: id});
     if(!booking) {
         throw new APIError(404, 'Booking not found', true);
     }

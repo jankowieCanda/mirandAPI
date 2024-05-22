@@ -23,18 +23,29 @@ userRouter.get('/users/:id', auth, async (req: Request, res: Response, next: Nex
     }
 });
 
-userRouter.post('/users', auth, async (req: Request, res: Response) => {
-    const newUser = await createUser(req.body)
-    res.json({data: newUser});
+userRouter.post('/users', auth, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const newUser = await createUser(req.body)
+        res.json({data: newUser});
+    } catch(e) {
+        next(e);
+    }
 });
 
-userRouter.patch('/users/:id', auth, async (req: Request, res: Response) => {
-    const patch = req.body;
-    const patchedUser = await updateUser(req.params.id, patch);
-    res.json({data: patchedUser});
+userRouter.patch('/users/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        await updateUser(req.params.id, req.body);
+        res.json({data: `User with _id [${req.params.id}] updated!`});
+    } catch(e) {
+        next(e);
+    }
 });
 
-userRouter.delete('/users/:id', auth, async (req: Request, res: Response) => {
-    const deletedUser = deleteUser(req.params.id)
-    res.json({data: deletedUser});
+userRouter.delete('/users/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        await deleteUser(req.params.id);
+        res.json({data: `User with _id [${req.params.id}] deleted!`});
+    } catch(e) {
+        next(e);
+    }
 });
