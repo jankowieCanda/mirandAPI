@@ -30,5 +30,5 @@ app.get('/', (req: Request, res: Response) => {
 
 app.use(async (err: APIError, req: Request, res: Response , next: NextFunction) => {
   console.error(err);
-  return res.status(err.status ?? 500).json({message: err.safe ? err.message : 'Fatal Error!'})
+  return res.status(err.status ?? 500).json({message: err.safe ? err.message : 'Oops! Something went wrong ;)'})
 })
