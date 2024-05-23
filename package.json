@@ -9,7 +9,8 @@
     "clean": "rimraf dist/",
     "copy-files": "copyfiles public/*.html data/*.json dist/",
     "build": "npm run clean && tsc && npm run copy-files",
-    "deploy": "serverless deploy"
+    "deploy": "serverless deploy",
+    "seed": "ts-node seed.ts"
   },
   "repository": {
     "type": "git",
