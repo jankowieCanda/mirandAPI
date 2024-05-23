@@ -11,7 +11,10 @@ import { createUser } from './services/user';
 import { UserModel } from './models/User';
 import { Contact } from './interfaces/Contact';
 import { ContactModel } from './models/Contact';
+import dotenv from 'dotenv';
+
 const db = require('./db');
+dotenv.config();
 
 const ROUNDS = 10;
 BookingModel.collection.drop();
@@ -153,7 +156,7 @@ function sowUsers() {
         let name = faker.person.fullName();
         let emp_ID = faker.number.int({min: 1000, max: 100000});
         let email = faker.internet.email({firstName: name, provider: 'mirandashboard.com'});
-        let password = 'mirandashboard';
+        let password = process.env.PASSWORD;
         let start = faker.date.past().toISOString().slice(0, 10);
         let desc = faker.person.jobDescriptor();
         let contact = faker.phone.number();
