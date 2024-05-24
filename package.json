@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --detectOpenHandles",
     "start": "nodemon server.ts",
     "clean": "rimraf dist/",
     "copy-files": "copyfiles public/*.html data/*.json dist/",

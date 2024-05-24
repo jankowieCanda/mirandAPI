@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongoose';
 import { APIError } from '../APIError';
 import { Booking } from '../interfaces/Booking';
 import { BookingModel } from '../models/Booking';
@@ -8,8 +9,8 @@ export const getAllBookings = async () => {
 }
 
 export const getBooking = async (id: string) => {
-    const booking = BookingModel.findById({_id: id});
-    if(!booking) {
+    const booking = await BookingModel.findById({_id: id});
+    if(!booking || booking === null) {
         throw new APIError(404, 'Booking not found', true);
     }
     return booking;
@@ -24,7 +25,7 @@ export const updateBooking = async (id: string, obj: Booking) => {
 }
 
 export const deleteBooking = async (id: string) => {
-    const booking = BookingModel.findOneAndDelete({_id: id});
+    const booking = BookingModel.findByIdAndDelete({_id: id});
     if(!booking) {
         throw new APIError(404, 'Booking not found', true);
     }

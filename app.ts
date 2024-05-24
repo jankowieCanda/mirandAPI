@@ -6,7 +6,10 @@ import { userRouter } from "./controllers/user";
 import { contactRouter } from "./controllers/contact";
 import { APIError } from "./APIError";
 import path from "path";
+import dotenv from 'dotenv';
+
 const db = require('./db');
+dotenv.config();
 
 export const app = express();
 
