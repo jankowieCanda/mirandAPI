@@ -10,7 +10,7 @@ export const getAllBookings = async () => {
 
 export const getBooking = async (id: string) => {
     const booking = await BookingModel.findById({_id: id});
-    if(!booking || booking === null) {
+    if(!booking) {
         throw new APIError(404, 'Booking not found', true);
     }
     return booking;
