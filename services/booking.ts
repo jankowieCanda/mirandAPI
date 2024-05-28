@@ -1,4 +1,3 @@
-import { ObjectId } from 'mongoose';
 import { APIError } from '../APIError';
 import { Booking } from '../interfaces/Booking';
 import { BookingModel } from '../models/Booking';
