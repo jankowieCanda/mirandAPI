@@ -9,11 +9,14 @@ import path from "path";
 import dotenv from 'dotenv';
 
 const db = require('./db');
+const cors = require('cors');
 dotenv.config();
 
 export const app = express();
 
 app.use(express.json());
+
+app.use(cors());
 
 app.use(loginRouter);
 
