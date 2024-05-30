@@ -6,12 +6,12 @@ import { RoomModel } from './models/Room';
 import { Room } from './interfaces/Room';
 import { createRoom } from './services/room';
 import { User } from './interfaces/User';
-import bcrypt from 'bcrypt';
 import { createUser } from './services/user';
 import { UserModel } from './models/User';
 import { Contact } from './interfaces/Contact';
 import { ContactModel } from './models/Contact';
 import dotenv from 'dotenv';
+const bcrypt = require('bcryptjs');
 
 const db = require('./db');
 dotenv.config();

@@ -1,9 +1,9 @@
 
-import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import { APIError } from '../APIError';
 import { UserModel } from '../models/User';
+const bcrypt = require('bcryptjs')
 
 dotenv.config();
 
