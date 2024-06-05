@@ -1,6 +1,7 @@
 import { APIError } from '../APIError';
 import { Room } from '../interfaces/Room';
 import { RoomModel } from '../models/Room';
+import { sqlInsert } from '../utils/preparedStatements';
 
 export const getAllRooms = async () => {
     const allRooms = RoomModel.find();
@@ -32,6 +33,5 @@ export const deleteRoom = async (id: string) => {
 }
 
 export const createRoom = async (obj: Room) => {
-    const newRoom = new RoomModel(obj);
-    await newRoom.save();
+    sqlInsert('room', obj);
 }

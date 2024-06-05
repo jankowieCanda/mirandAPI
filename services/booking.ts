@@ -1,6 +1,8 @@
 import { APIError } from '../APIError';
 import { Booking } from '../interfaces/Booking';
 import { BookingModel } from '../models/Booking';
+import { sqlInsert } from '../utils/preparedStatements';
+
 
 export const getAllBookings = async () => {
     const allBookings = await BookingModel.find();
@@ -32,6 +34,5 @@ export const deleteBooking = async (id: string) => {
 }
 
 export const createBooking = async (obj: Booking) => {
-    const newBooking = new BookingModel(obj)
-    await newBooking.save();
+    sqlInsert('booking', obj);
 }

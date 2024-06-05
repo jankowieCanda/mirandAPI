@@ -1,28 +1,32 @@
 import { faker } from '@faker-js/faker';
 import { Booking } from './interfaces/Booking';
 import { createBooking } from './services/booking';
-import { BookingModel } from './models/Booking';
-import { RoomModel } from './models/Room';
 import { Room } from './interfaces/Room';
 import { createRoom } from './services/room';
 import { User } from './interfaces/User';
 import { createUser } from './services/user';
-import { UserModel } from './models/User';
 import { Contact } from './interfaces/Contact';
-import { ContactModel } from './models/Contact';
-import dotenv from 'dotenv';
+import { connection } from './myDB';
+import { sqlInsert } from './utils/preparedStatements';
 const bcrypt = require('bcryptjs');
 
-const db = require('./db');
-dotenv.config();
-
 const ROUNDS = 10;
-BookingModel.collection.drop();
-RoomModel.collection.drop();
-UserModel.collection.drop();
-ContactModel.collection.drop();
 
-function sowBookings() {
+// DROP TABLES
+connection.execute('DROP TABLE IF EXISTS booking, room, user, contact;');
+
+// CREATE TABLES
+
+connection.execute('CREATE TABLE contact(Id INT AUTO_INCREMENT, Date DATE, Hour TIME, Message_ID INT, Subject VARCHAR(100), Review LONGTEXT, Picture VARCHAR(255), Customer_Name VARCHAR(100), mail VARCHAR(50), Phone VARCHAR(25),CONSTRAINT PK_Id PRIMARY KEY(Id));');
+
+connection.execute('CREATE TABLE user(Id INT AUTO_INCREMENT, Picture VARCHAR(255), Full_Name VARCHAR(100), Employee_ID INT, Email VARCHAR(50), Password VARCHAR(255), Start_Date DATE, Description VARCHAR(100), Contact VARCHAR(25), Status VARCHAR(25),CONSTRAINT PK_Id PRIMARY KEY(Id));');
+
+connection.execute('CREATE TABLE room(Id INT AUTO_INCREMENT, Picture VARCHAR(255), Room_Number INT, Room_ID INT, Room_Type VARCHAR(50), Amenities VARCHAR(255), Price FLOAT, Offer_Price FLOAT, Status VARCHAR(25),CONSTRAINT PK_Id PRIMARY KEY(Id));');
+
+connection.execute('CREATE TABLE booking(Id INT AUTO_INCREMENT, Guest VARCHAR(100), Reservation_ID INT, Order_Date DATE, Check_In DATE, Check_Out DATE, Special_Request VARCHAR(255), Room_Type VARCHAR(50), Room_Number INT, RoomID INT, Status VARCHAR(25),CONSTRAINT PK_Id PRIMARY KEY(Id), CONSTRAINT FK_Booking_RoomID FOREIGN KEY(RoomID) REFERENCES room(Id));');
+
+
+function createBookings() {
 
     let bookings = [];
 
@@ -67,7 +71,7 @@ function sowBookings() {
 
 }
 
-function sowRooms() {
+function createRooms() {
 
     let rooms = [];
     
@@ -147,7 +151,7 @@ function sowRooms() {
     });
 }
 
-function sowUsers() {
+function createUsers() {
 
     let users = [];
 
@@ -186,7 +190,7 @@ function sowUsers() {
 
 }
 
-function sowContacts() {
+function createContacts() {
     let reviews = [];
 
     for(let i = 0; i < ROUNDS; i++) {
@@ -215,13 +219,15 @@ function sowContacts() {
         reviews.push(review);
     };
 
-    reviews.forEach(async (review) => {
-        await ContactModel.collection.insertOne(review);
+    reviews.forEach((review) => {
+        sqlInsert('contact', review);
     });
 
 }
 
-sowBookings();
-sowRooms();
-sowUsers();
-sowContacts();
+createContacts();
+createUsers();
+createRooms();
+createBookings();
+
+connection.end();

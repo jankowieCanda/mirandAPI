@@ -1,6 +1,7 @@
 import { APIError } from '../APIError';
 import { User } from '../interfaces/User';
 import { UserModel } from '../models/User';
+import { sqlInsert } from '../utils/preparedStatements';
 
 export const getAllUsers = async () => {
     const allUsers = await UserModel.find();
@@ -32,6 +33,5 @@ export const deleteUser = async (id: string) => {
 }
 
 export const createUser = async (obj: User) => {
-    const newUser = new UserModel(obj);
-    await newUser.save();
+    sqlInsert('user', obj);
 }

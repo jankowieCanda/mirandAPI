@@ -8,7 +8,7 @@ import { APIError } from "./APIError";
 import path from "path";
 import dotenv from 'dotenv';
 
-const db = require('./db');
+const db = require('./myDB');
 const cors = require('cors');
 dotenv.config();
 
